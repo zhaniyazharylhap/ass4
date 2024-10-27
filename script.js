@@ -10,6 +10,10 @@ const loveLetterInput = document.getElementById("loveLetter");
 const calculateButton = document.getElementById("calculate");
 const resultParagraph = document.getElementById("result");
 
+const parseSkillValue = skill => parseFloat(skill.value);
+
+const sumSkillValues = (sum, value) => sum + value;
+
 const calculate = () => {
     const name = nameInput.value.trim();
     const startingBid = parseFloat(startingBidInput.value);
@@ -20,27 +24,32 @@ const calculate = () => {
         const casteAdjustment = parseFloat(casteSelect.value) || 0;
         const ageCoeff = parseFloat(document.querySelector("input[name='age']:checked")?.value) || 1;
 
-        const skillsBonus = Array.from(skillsCheckboxes)
-            .filter(skill => skill.checked)
-            .reduce((sum, skill) => sum + parseFloat(skill.value), 0);
+        let skillsBonus = 0;
+        Array.from(skillsCheckboxes).forEach(skill => {
+            if (skill.checked) {
+                skillsBonus += parseFloat(skill.value);
+            }
+        });
 
-        const reputation = Array.from(reputationCheckboxes)
-            .filter(rep => rep.checked)
-            .reduce((acc, rep) => {
-                const value = parseFloat(rep.value);
-                if (value > 0 && value < 1) {
-                    acc.coeff *= value;
-                } else if (value < 0) {
-                    acc.penalty += value;
-                }
-                return acc;
-            }, { coeff: 1, penalty: 0 });
+        
+        let reputationCoeff = 1;
+        let reputationPenalty = 0;
+        const checkedReputations = Array.from(reputationCheckboxes).filter(rep => rep.checked);
 
-        const totalCoeff = educationCoeff * networthCoeff * ageCoeff * reputation.coeff;
+        for (let i = 0; i < checkedReputations.length; i++) {
+            const value = parseFloat(checkedReputations[i].value);
+            if (value > 0 && value < 1) {
+                reputationCoeff *= value;
+            } else if (value < 0) {
+                reputationPenalty += value;
+            }
+        }
+
+        const totalCoeff = educationCoeff * networthCoeff * ageCoeff * reputationCoeff;
 
         let price = startingBid * totalCoeff;
 
-        const totalAdditions = casteAdjustment + skillsBonus + reputation.penalty;
+        const totalAdditions = casteAdjustment + skillsBonus + reputationPenalty;
 
         price += totalAdditions;
 
