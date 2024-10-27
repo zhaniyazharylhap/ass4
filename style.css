@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; 
+    padding: 20px;
+    margin: 0;
+    text-align: center; 
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #5a5a5a;
+  }
+  
+  label {
+    color: #333333;
+  }
+  
+  select, input[type="checkbox"], input[type="radio"], input[type="text"], input[type="number"], textarea {
+    margin-bottom: 15px;
+  }
+  
+  button {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    margin: 10px auto;
+    display: block;
+  }
+  
+  button:hover {
+    background-color: #45a049; 
+  }
+  
+  .result {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333333;
+    margin-top: 20px;
+  }
+  
